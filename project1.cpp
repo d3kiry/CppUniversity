@@ -1,0 +1,84 @@
+ 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+ 
+int main()
+{
+    system("chcp 65001");
+    char c;
+    double x,y,z;
+    do {
+        system("clear");
+        printf("Главное меню\n");
+        printf("Вариант 6\n");
+        printf("Последняя цифра студенческого билета: 0\n");
+        printf("Ввод исходных данных (нажмите 0)\n");
+        printf("Расчет A             (нажмите 1)\n");
+        printf("Расчет B             (нажмите 2)\n");
+        printf("Расчет C             (нажмите 3)\n");
+        printf("Выход                (нажмите 4)\n");
+        c = getchar();
+        switch (c) {
+        case '0':{
+            system("clear");
+            printf("Ввод исходных данных...\n");
+            scanf("%lf%lf%lf",&x,&y,&z);
+            system("pause");
+            //system( "read -n 1 -s -p \"Нажмите любую клавишу, чтобы продолжить...\"" );
+        }break;
+        case '1':{
+            system("clear");
+            printf("Расчет A...\n");
+            double A;
+            for (int x1 = -8; x1 <= 1; x1++) {
+                if (pow(y, 3) >= 0 && x != 0) {
+                    A = sqrt(pow(y,3)) * ((z + pow(x,2)) / x);
+                    printf("x1 = %i\tA = %.3f\n",x1,A);
+                } else {
+                    printf("Вычисление невозможно!\n");
+                }
+            }
+            system("pause");
+            //system( "read -n 1 -s -p \"Нажмите любую клавишу, чтобы продолжить...\"" );
+        }break;
+        case '2':{
+            system("clear");
+            printf("Расчет B...\n");
+            double B;
+ 
+            double y1 = 0;
+            while(y1 >= -13.00001){
+                if (z != 0 && y1 != 0){
+                    B = cos((y*x)/z)+(sin(z*x)/y1);
+                    printf("y1 = %f\tB = %.3f\n",y1,B);
+                } else {
+                    printf("Вычисление невозможно!\n");
+                }
+ 
+                y1 = y1 - 13./5;
+ 
+            }
+ 
+            system("pause");
+            //system( "read -n 1 -s -p \"Нажмите любую клавишу, чтобы продолжить...\"" );
+        }break;
+        case '3':{
+            system("clear");
+            printf("Расчет C...\n");
+            //system( "read -n 1 -s -p \"Нажмите любую клавишу, чтобы продолжить...\"" );
+            system("pause");
+        }break;
+        case '4':{
+            printf("Выйти? y/n");
+            // нужно стопнуть консоль/ разобраться с флагами -n 1 -s -p
+            //system("pause");
+            c = getchar();
+        }break;
+        }
+    } while (c != 'y');
+    return 0;
+}
+ 
+ 
