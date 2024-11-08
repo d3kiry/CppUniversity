@@ -1,0 +1,53 @@
+#include <iostream>
+#include <cmath>
+#include <cfloat>
+using namespace std;
+void input(string comment,float &x, float &y){
+    x = -3.0; // cout << comment; cin >> w;
+    y = 97;
+}
+float FunctionA(float x){
+  float w;
+  w = 1 / sqrt(x);
+  return w;  
+}
+void print(float* M, int N){
+    cout << "-----------------" << endl;
+    for(int i = 0; i<N; i++){
+        cout << i << " - " << M[i] << endl;
+    }
+}
+int calcA(float* &A, int N){
+    float x,y,z;
+    input("Type, please, number: ",x,y);
+    for (int i=0;i<9;i++){
+        z = FunctionA(x);
+        if (z==z and z > -DBL_MAX and z < DBL_MAX){
+            cout << "x= " << x << " z= " << z << endl;
+            float* T = new float[N+1];
+            for(int i = 0; i < N; i++){
+                T[i] = A[i];
+            }
+            T[N] = z;
+            delete [] A;
+            N++;
+            A = new float[N];
+            for(int i = 0; i < N; i++){
+                A[i] = T[i];
+            }
+            delete [] T;
+        }else{
+            cout << "x= " << x << " z= Magic" << endl;
+        }
+        x = x + 1.0;
+    }
+    return N;
+}
+int main() {
+	cout << "Labwork 3 Borisov Vadim var.6 \n";
+    float* A = new float[0];
+    int N = 0;
+    N = calcA(A,N);
+    print(A,N);
+    //cout << "x=" << x << " y=" << y;
+}
