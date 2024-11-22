@@ -2,14 +2,14 @@
 #include <cmath>
 #include <cfloat>
 using namespace std;
-void input(float &x, float &y, float &zn, float &s, int &num) {
-    cout << "Введите значения переменных:\n";
-    cout << "x: "; cin >> x;
-    cout << "y: "; cin >> y;
-    cout << "zn (начальное значение z): "; cin >> zn;
-    cout << "s (шаг изменения z): "; cin >> s;
-    cout << "num (количество вычисляемых значений): "; cin >> num;
-}
+//void input(float &x, float &y, float &zn, float &s, int &num) {
+//    cout << "Введите значения переменных:\n";
+//    cout << "x: "; cin >> x;
+//    cout << "y: "; cin >> y;
+//    cout << "zn (начальное значение z): "; cin >> zn;
+//    cout << "s (шаг изменения z): "; cin >> s;
+//    cout << "num (количество вычисляемых значений): "; cin >> num;
+//}
 void print(float* M, int N) {
     cout << "---------------------------------------------------" << endl;
     for (int i = 0; i < N; i++) {
@@ -19,21 +19,18 @@ void print(float* M, int N) {
 float FunctionA(float x, float y, float z) {
     if (x == 0) {
         cout << "Ошибка: деление на ноль!" << endl;
-        return 400;
     }
     return sqrt(pow(y, 3)) * ((z + pow(x, 2)) / x);
 }
 float FunctionB(float x, float y, float z) {
     if (z == 0 || y == 0) {
         cout << "Ошибка: деление на ноль!" << endl;
-        return 400;
     }
     return cos(y * x / z) + (sin(z * x) / y);
 }
 float FunctionC(float x, float y, float z) {
     if (x * z < -1 || x * z > 1) {
         cout << "Ошибка: значение arcsin вне допустимого диапазона!" << endl;
-        return 400;
     }
     return y * pow(asin(x * z), 2);
 }
@@ -111,14 +108,14 @@ int calcC(float* &C, float x, float y, float zn, float s, int num) {
 }
 int main() {
     char c;
-    float x = 0, y = 0, zn = 0, s = 0;
-    int num = 0;
+    float x = 0.8, y = 0.31, zn = -0.5, s = 0.2;
+    int num = 5;
     do {
         cout << "Labwork 3 Variant 6 | Borisov Vadim | BBSO - 01 - 24" << endl;
         cout << "---------------------------------------------------" << endl;
         cout << "Нынешнии значения:" << " x = " << x << " y = " << y << " zn = " << zn << " s = " << s << " num = " << num << endl;
         cout << "---------------------------------------------------" << endl;
-        cout << "Ввод значений\t\t(press 0)" << endl;
+        //cout << "Ввод значений\t\t(press 0)" << endl;
         cout << "Рассчитать функцию A\t(press 1)" << endl;
         cout << "Рассчитать функцию B\t(press 2)" << endl;
         cout << "Рассчитать функцию C\t(press 3)" << endl;
@@ -127,9 +124,9 @@ int main() {
         cout << "Выбор: " << endl;
         cin >> c;
         switch (c) {
-            case '0': {
-                input(x, y, zn, s, num);
-            } break;
+            //case '0': {
+            //    input(x, y, zn, s, num);
+            //} break;
             case '1': {
                 float* A = new float[0];
                 int NA = calcA(A, x, y, zn, s, num);
