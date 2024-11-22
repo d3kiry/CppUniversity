@@ -1,0 +1,28 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+
+void readFromFile(const std::string& filename) {
+    std::ifstream inputFile(filename);
+    if (!inputFile) {
+        std::cerr << "Не удалось открыть файл " << filename << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::cout << "Прочитано из файла: " << line << std::endl;
+    }
+
+    inputFile.close();
+}
+
+int main() {
+    // Вызов внешней программы для генерации файла
+    std::system("create_vector.exe");
+
+    // Чтение данных из файла
+    readFromFile("task_4_int.dat");
+
+    return 0;
+}
