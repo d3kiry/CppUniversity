@@ -1,28 +1,103 @@
-#include <fstream>
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include <string>
+#include <cstdlib> // Для system()
 
-void readFromFile(const std::string& filename) {
-    std::ifstream inputFile(filename);
-    if (!inputFile) {
-        std::cerr << "Не удалось открыть файл " << filename << std::endl;
-        return;
+// Функция для чтения данных из файла в массив
+template <typename T>
+std::vector<T> readFromFile(const std::string& filename) {
+    std::ifstream inputFile(filename, std::ios::in); // Открытие файла на чтение
+    if (!inputFile.is_open()) {
+        throw std::runtime_error("Не удалось открыть файл: " + filename);
     }
 
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        std::cout << "Прочитано из файла: " << line << std::endl;
+    std::vector<T> data;
+    T value;
+    while (inputFile >> value) {
+        data.push_back(value);
     }
 
     inputFile.close();
+    return data;
+}
+
+// Функция для записи данных в файл
+template <typename T>
+void writeToFile(const std::string& filename, const std::vector<T>& data) {
+    std::ofstream outputFile(filename, std::ios::out); // Открытие файла на запись
+    if (!outputFile.is_open()) {
+        throw std::runtime_error("Не удалось открыть файл для записи: " + filename);
+    }
+
+    for (const auto& value : data) {
+        outputFile << value << " ";
+    }
+
+    outputFile.close();
+}
+
+// Пример обработки массива: нахождение минимального и максимального значений
+template <typename T>
+std::pair<T, T> findMinMax(const std::vector<T>& data) {
+    if (data.empty()) {
+        throw std::runtime_error("Массив пуст.");
+    }
+    T min = data[0];
+    T max = data[0];
+    for (const auto& value : data) {
+        if (value < min) min = value;
+        if (value > max) max = value;
+    }
+    return {min, max};
 }
 
 int main() {
-    // Вызов внешней программы для генерации файла
-    std::system("create_vector.exe");
+    try {
+        // 1. Запуск create_vector.exe
+        std::cout << "Запуск create_vector.exe для генерации данных..." << std::endl;
+        int result = std::system("create_vector.exe");
+        if (result != 0) {
+            throw std::runtime_error("Ошибка при запуске create_vector.exe");
+        }
 
-    // Чтение данных из файла
-    readFromFile("task_4_int.dat");
+        // 2. Чтение данных из файла (например, task_4_int.dat)
+        const std::string inputFilename = "task_4_int.dat";
+        std::cout << "Чтение данных из файла: " << inputFilename << std::endl;
+        std::vector<int> data = readFromFile<int>(inputFilename);
 
-    return 0;
-}
+        // 3. Вывод исходных данных
+        std::cout << "Исходные данные:" << std::endl;
+        for (const auto& value : data) {
+            std::cout << value << " ";
+        }
+        std::cout << std::endl;
+
+        // 4. Пример обработки: нахождение минимального и максимального значения
+        auto [minValue, maxValue] = findMinMax(data);
+        std::cout << "Минимальное значение: " << minValue << std::endl;
+        std::cout << "Максимальное значение: " << maxValue << std::endl;
+
+        // 5. Запись результатов в файл rez_4.txt
+        const std::string outputFilename = "rez_4.txt";
+        std::ofstream outputFile(outputFilename, std::ios::out);
+        if (!outputFile.is_open()) {
+            throw std::runtime_error("Не удалось открыть файл для записи результатов: " + outputFilename);
+        }
+
+        outputFile << "Исходные данные: ";
+        for (const auto& value : data) {
+            outputFile << value << " ";
+        }
+        outputFile << "\nМинимальное значение: " << minValue
+                   << "\nМаксимальное значение: " << maxValue << std::endl;
+        outputFile.close();
+
+        std::cout << "Результаты записаны в файл: " << outputFilename << std::endl;
+
+    } catch (const std::exception& ex) {
+        std::cerr << "Ошибка: " << ex.what() << std::endl;
+        return 1;
+    }
+
+   
