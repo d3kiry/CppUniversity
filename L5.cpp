@@ -4,10 +4,10 @@
 #include <cstring>
 using namespace std;
 struct CallRecord {
-    char date[11];       
+    char date[16];       
     char fio[32];
     char city[32];
-    char phone[20];
+    char phone[16];
     int duration;
     CallRecord(const char* date, const char* fio, const char* city, const char* phone, int duration) {
         strcpy(this->date, date);
@@ -43,22 +43,15 @@ void addRecords(vector<CallRecord> &records) {
     while (!(cin >> count) || count <= 0) {
         cout << "Пожалуйста, введите положительное число для количества записей: \n";
     }
-    cin.ignore();
     for (int i = 0; i < count; ++i) {
         CallRecord record;
-        cout << "Введите дату (ДД.ММ.ГГГГ): ";
-        cin >> record.date;
-        cin.ignore();
-        cout << "Введите фамилию и инициалы сотрудника: ";
-        cin.getline(record.fio, sizeof(record.fio));
-        cout << "Введите город: ";
-        cin.getline(record.city, sizeof(record.city));
-        cout << "Введите номер телефона: ";
-        cin.getline(record.phone, sizeof(record.phone));
+        cout << "Введите дату (ДД.ММ.ГГГГ): ";cin >> record.date;cin.ignore();
+        cout << "Введите фамилию и инициалы сотрудника: ";cin.getline(record.fio, sizeof(record.fio));
+        cout << "Введите город: ";cin.getline(record.city, sizeof(record.city));
+        cout << "Введите номер телефона: ";cin.getline(record.phone, sizeof(record.phone));
         cout << "Введите продолжительность разговора (в минутах): ";
         while (!(cin >> record.duration) || record.duration <= 0) { 
             cout << "Пожалуйста, введите положительное число для продолжительности: \n";
-
         }
         records.push_back(record);
     }
@@ -91,25 +84,18 @@ void editRecord(vector<CallRecord> &records) {
         return;
     }
     int index;
-    cout << "Введите номер записи для редактирования (1-" << records.size() << "): ";
-    cin >> index;
+    cout << "Введите номер записи для редактирования (1-" << records.size() << "): ";cin >> index;
     if (index < 1 || index > records.size()) {
         cout << "Неверный номер записи." << endl;
         return;
     }
     CallRecord &record = records[index - 1];
     cout << "Текущие данные: " << record.date << " " << record.fio << " " << record.city<< " " << record.phone << " " << record.duration << " мин." << endl;
-    cout << "Введите новую дату (ДД.ММ.ГГГГ): ";
-    cin >> record.date;
-    cout << "Введите фамилию и инициалы сотрудника: ";
-    cin.ignore();
-    cin.getline(record.fio, sizeof(record.fio));
-    cout << "Введите город: ";
-    cin.getline(record.city, sizeof(record.city));
-    cout << "Введите номер телефона: ";
-    cin.getline(record.phone, sizeof(record.phone));
-    cout << "Введите продолжительность разговора (в минутах): ";
-    cin >> record.duration;
+    cout << "Введите новую дату (ДД.ММ.ГГГГ): ";cin >> record.date;
+    cout << "Введите фамилию и инициалы сотрудника: ";cin.getline(record.fio, sizeof(record.fio));
+    cout << "Введите город: ";cin.getline(record.city, sizeof(record.city));
+    cout << "Введите номер телефона: ";cin.getline(record.phone, sizeof(record.phone));
+    cout << "Введите продолжительность разговора (в минутах): ";cin >> record.duration;
     cout << "Запись обновлена." << endl;
 }
 void generateReport(const vector<CallRecord> &records, const string &outputFile, const string &month) {
@@ -120,11 +106,7 @@ void generateReport(const vector<CallRecord> &records, const string &outputFile,
     report << "Дата\t\tФИО\tГород\tТелефон\tДлительность" << endl;
     for (const CallRecord& record : records) {
         if (strncmp(record.date + 3, month.c_str(), 2) == 0) {
-            report << record.date << "  "
-                   << record.fio << "  "
-                   << record.city << "  "
-                   << record.phone << "  "
-                   << record.duration << " мин." << endl;
+            report << record.date << "  "<< record.fio << "  "<< record.city << "  "<< record.phone << "  "<< record.duration << " мин." << endl;
             if (record.duration > longestDuration) {
                 longestDuration = record.duration;
                 longestCall = record;
@@ -132,11 +114,7 @@ void generateReport(const vector<CallRecord> &records, const string &outputFile,
         }
     }
     report << "\nСамый продолжительный разговор:\n";
-    report << "Дата: " << longestCall.date << "\n"
-           << "ФИО: " << longestCall.fio << "\n"
-           << "Город: " << longestCall.city << "\n"
-           << "Телефон: " << longestCall.phone << "\n"
-           << "Длительность: " << longestCall.duration << " мин." << endl;
+    report << "Дата: " << longestCall.date << "\n"<< "ФИО: " << longestCall.fio << "\n"<< "Город: " << longestCall.city << "\n"<< "Телефон: " << longestCall.phone << "\n"<< "Длительность: " << longestCall.duration << " мин." << endl;
     report.close();
     cout << "Отчет сохранен в файл: " << outputFile << endl;
 }
@@ -177,10 +155,8 @@ int main() {
                 break;
             case 7: {
                 string month, outputFile;
-                cout << "Введите месяц для отчета (ММ): ";
-                cin >> month;
-                cout << "Введите имя файла для сохранения отчета: ";
-                cin >> outputFile;
+                cout << "Введите месяц для отчета (ММ): ";cin >> month;
+                cout << "Введите имя файла для сохранения отчета: ";cin >> outputFile;
                 generateReport(records, outputFile, month);
                 break;
             }
