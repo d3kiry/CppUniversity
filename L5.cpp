@@ -106,11 +106,11 @@ void generateReport(const vector<CallRecord> &records, const string &outputFile,
     report << "Дата\t\tФИО\tГород\tТелефон\tДлительность" << endl;
     for (const CallRecord& record : records) {
         if (strncmp(record.date + 3, month.c_str(), 2) == 0) {
-            report << record.date << "  "<< record.fio << "  "<< record.city << "  "<< record.phone << "  "<< record.duration << " мин." << endl;
             if (record.duration > longestDuration) {
                 longestDuration = record.duration;
                 longestCall = record;
             }
+            report << record.date << "  "<< record.fio << "  "<< record.city << "  "<< record.phone << "  "<< record.duration << " мин." << endl;
         }
     }
     report << "\nСамый продолжительный разговор:\n";
@@ -118,12 +118,22 @@ void generateReport(const vector<CallRecord> &records, const string &outputFile,
     report.close();
     cout << "Отчет сохранен в файл: " << outputFile << endl;
 }
+void testDB(vector<CallRecord> &records) {
+    records.clear();
+    records.push_back(CallRecord("01.01.2024", "Иванов И.И.", "Москва", "89818329131", 1500));
+    records.push_back(CallRecord("15.01.2024", "Петров П.П.", "Санкт-Петербург", "89128329123", 3201));
+    records.push_back(CallRecord("28.01.2024", "Сидоров С.С.", "Новосибирск", "89119238239", 4305));
+    records.push_back(CallRecord("10.02.2024", "Кузнецов К.К.", "Екатеринбург", "89882381239", 2301));
+    records.push_back(CallRecord("22.02.2024", "Смирнов С.С.", "Казань", "899912000102", 2905));
+    cout << "Тестовая база данных создана." << endl;
+}
 int main() {
     string fileName = "calls.dat";
     vector<CallRecord> records;
     int choice;
     do {
         cout << "\nМеню:\n";
+        cout << "0. Создать тестовую базу данных\n";
         cout << "1. Создать новую базу данных\n";
         cout << "2. Просмотреть базу данных\n";
         cout << "3. Добавить записи\n";
@@ -131,10 +141,13 @@ int main() {
         cout << "5. Сохранить базу данных в файл\n";
         cout << "6. Загрузить базу данных из файла\n";
         cout << "7. Сформировать отчет\n";
-        cout << "0. Выход\n";
+        cout << "8. Выход\n";
         cout << "Ваш выбор: ";
         cin >> choice;
         switch (choice) {
+            case 0:
+                testDB(records);
+                break;
             case 1:
                 createDB(records, fileName);
                 break;
@@ -155,17 +168,19 @@ int main() {
                 break;
             case 7: {
                 string month, outputFile;
-                cout << "Введите месяц для отчета (ММ): ";cin >> month;
-                cout << "Введите имя файла для сохранения отчета: ";cin >> outputFile;
+                month = "01";
+                //cout << "Введите месяц для отчета (ММ): ";cin >> month;
+                //cout << "Введите имя файла для сохранения отчета: ";cin >> outputFile;
+                outputFile = "otchet.txt";
                 generateReport(records, outputFile, month);
                 break;
             }
-            case 0:
+            case 8:
                 cout << "Выход из программы." << endl;
                 break;
             default:
                 cout << "Неверный выбор. Попробуйте снова." << endl;
         }
-    } while (choice != 0);
+    } while (choice != 8);
     return 0;
 }
