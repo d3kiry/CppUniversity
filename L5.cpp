@@ -128,6 +128,7 @@ void testDB(vector<CallRecord> &records) {
     cout << "Тестовая база данных создана." << endl;
 }
 int main() {
+    system("chcp 65001");
     string fileName = "calls.dat";
     vector<CallRecord> records;
     int choice;
